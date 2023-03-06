@@ -1,9 +1,9 @@
 from http.client import BAD_REQUEST
 from locale import normalize
 from random import randint
-from audioop import add
+#from audioop import add
 from datetime import datetime, timedelta
-from lib2to3.pytree import convert
+#from lib2to3.pytree import convert
 from tokenize import Number
 from unicodedata import numeric
 from flask import Flask, jsonify, session
@@ -4156,6 +4156,6 @@ def pagina_no_encontrada(error):
 
 if __name__ == '__main__':
     app.register_error_handler(404, pagina_no_encontrada)
-    app.run(host="192.168.1.33", port=8000,debug=True)
+    app.run(host="192.168.0.76", port=80,debug=True)
 # host="192.168.0.117", port=8000,
 # host="89.0.0.28", port=8000,
