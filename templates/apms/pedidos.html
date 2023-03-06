@@ -1,0 +1,183 @@
+{% include 'apms/cabecera.html' %}
+<input type="text" id="hashUsuarioO" hidden>
+<script>
+    var hashUsuario = sessionStorage.getItem("hash");
+    console.log(hashUsuario);
+    document.getElementById("hashUsuarioO").value = hashUsuario;
+
+    if (!(hashUsuario)) {
+        window.location.href = "/";
+    }
+
+</script>
+{% with messages= get_flashed_messages() %}
+
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <strong>¡Cuidado!</strong> {% for message in messages %}{{ message }}{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+<div class="card-body" style="min-width: 1200px;">
+    {% include 'apms/pedidosf.html' %}
+</div>
+<div class="card-body" style="min-width: 1200px;">
+    <div class="card border-info">
+        <div class="card-body" style="margin-left: 0%;">
+            <table id="myTable" class="table-light">
+                <thead>
+                    <tr class="table-light">
+                        <th scope="col" style="text-align:center;">Pedido nº</th>
+                        <th scope="col" style="text-align:center;">Usuario</th>
+                        <th scope="col" style="text-align:center;">Cod.Drog</th>
+                        <th scope="col" style="text-align:center;">Drogueria</th>
+
+                        <th scope="col" style="text-align:center;">Cod.Cli.</th>
+                        <th scope="col" style="text-align:center;">Cliente.</th>
+                        <th scope="col" style="text-align:center;">Unidades</th>
+                        <th scope="col" style="text-align:center;">Fecha</th>
+                        <th scope="col" style="text-align:center;">Aprobado</th>
+                        <th scope="col" style="text-align:center;">Acciones</th>
+                        <th scope="col" style="text-align:center;"></th>
+                    </tr>
+                </thead>
+                {% for i in lospedidos %}
+                <tr class="table-light">
+
+                    <td style="text-align: center;" scope="col" class="table-light">
+                        <h5>{{i[0]}}</h5>
+                    </td>
+                    <td style="text-align: center;" scope="col" class="table-light">
+
+                        {{i[1]}}
+                    </td>
+                    <td style="text-align: center;" scope="col" class="table-light">
+
+                        {{i[2]}}
+                    </td>
+                    <td style="text-align: center;" scope="col" class="table-light">
+
+                        {{i[9]}}
+                    </td>
+
+                    <td style="text-align: center;" scope="col" class="table-light">
+                        {{i[3]}}
+                    </td>
+                    <td style="text-align: center;" scope="col" class="table-light">
+
+                        {{i[10]}}
+                    </td>
+                    <td style="text-align: center;" scope="col" class="table-light">
+                        <input class="unidad" type="number" value="{{i[7]}}" hidden>
+                        {{i[7]}}
+
+                    </td>
+                    <td style="text-align: center;" scope="col" class="table-light">
+
+                        {{i[5]}}
+                    </td>
+                    <td style="text-align: center;" scope="col" class="table-light">
+                        {% if i[6]=="Aprobado" %}
+                        <h6 style="color: rgb(0, 0, 0);">Aprobado</h6>
+                        <!--<h6 style="color: rgb(23, 120, 14);">Aprobado</h6>-->
+
+                        {% endif %}
+                        {% if i[6]=="Sin aprobar" %}
+                        <h6 style="color: rgb(0, 0, 0);">Sin aprobar</h6>
+                        <!--<h6 style="color: rgb(226, 55, 55);">Sin aprobar</h6>-->
+
+                        {% endif %}
+                        {% if i[6]=="Procesado" %}
+                        <h6 style="color: rgb(0, 0, 0);">Procesado</h6>
+                        <!--<h6 style="color: rgb(28, 145, 223);">Procesado</h6>-->
+
+                        {% endif %}
+                        {% if i[6]=="Revisar" %}
+                        <h6 style="color: rgb(0, 0, 0);">Revisar</h6>
+                        <!--<h6 style="color: rgb(230, 156, 60);">Revisar</h6>-->
+
+                        {% endif %}
+
+                    </td>
+
+                    <td id="acciones" align="center">
+                        {% if i[6]=="Revisar" %}
+                        <div class="col-4">
+
+                        </div>
+                        <div class="col-4">
+                            <a href="/apms/eliminar/{{i[0]}}"><img
+                                    src="{{ url_for( 'static', filename='img/tachito.svg' ) }}"
+                                    style="height: 20px;width:20px;" title="Eliminar"></a>
+                        </div>
+                        <div class="col-4">
+
+                        </div>
+
+
+                        {% endif %}
+                        {% if i[6]=="Sin aprobar" %}
+                        <div class="col-4">
+
+                        </div>
+                        <div class="col-4">
+                            <a href="/apms/eliminar/{{i[0]}}"><img
+                                    src="{{ url_for( 'static', filename='img/tachito.svg' ) }}"
+                                    style="height: 20px;width:20px;" title="Eliminar"></a>
+                        </div>
+                        <div class="col-4">
+
+                        </div>
+
+
+                        {% endif %}
+                        {% if i[6]=="Procesado" %}
+                        <div class="col-3">
+                            <a href="#"><img src="{{ url_for( 'static', filename='img/verificado.png' ) }}"
+                                    style="height: 20px;width:20px;" title="Procesado"></a>
+                        </div>
+                        <div class="col-3">
+
+                        </div>
+                        <div class="col-3">
+                        </div>
+                        <div class="col-3">
+                        </div>
+                        {% endif %}
+                    </td>
+                    <td style="text-align: center;" scope="col" class="table-light">
+                        <a class="btn btn-dark btn-sm"
+                            href="javascript:finestraSecundaria('/apms/pedidorealizado/{{i[0]}}')"
+                            style="width: 50px; height: 27.99px; padding-top: 2px;">
+                            <h6>ver</h6>
+                        </a>
+                    </td>
+
+                </tr>{% endfor %}
+            </table>
+
+        </div>
+
+        <script>
+            let tot = document.getElementById("tot");
+            let total = 0;
+            let unidades = document.getElementsByClassName("unidad");
+
+            for (let i of unidades) total += parseInt(i.value);
+            tot.innerHTML = total + " unidades pendientes.";
+            console.log(total)
+
+        </script>
+
+    </div>
+</div>
+</div>
+<script>
+    function finestraSecundaria(url) {
+        let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
+width=800,height=700,left=-1000,top=-1000`;
+        window.open(url, "Diseño Web", params)
+    }
+</script>
+{% include 'apms/pie.html' %}

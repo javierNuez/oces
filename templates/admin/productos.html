@@ -1,0 +1,140 @@
+{% include 'admin/cabecera.html' %}
+{% with messages= get_flashed_messages() %}
+
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	<strong>¡Cuidado!</strong> {% for message in messages %}{{ message }}{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+<script>
+	var hashUsuario = sessionStorage.getItem("hash");
+	if (!(hashUsuario)) {
+		window.location.href = "/";
+	}
+</script>
+<br>
+
+
+<div class="card-body" style="min-height: 500px;">
+	<div class="card border-info">
+		<div class="card-header">
+			<h4>Agregar productos</h4>
+		</div>
+		<div class="card-body">
+
+			<table id="tblContact" class="table table-sm">
+				<form action="/admin/productos/guardar" method="post" enctype="multipart/form-data">
+					<thead>
+						<tr>
+							<!--<th scope="col" class="table-info">#</th>-->
+
+
+							<th style="text-align: center;" scope="col" class="table-info">Código</th>
+							<th style="text-align: center;" scope="col" class="table-info">Descripción</th>
+							<th style="text-align: center;" scope="col" class="table-info">desde</th>
+							<th style="text-align: center;" scope="col" class="table-info">hasta</th>
+							<th style="text-align: center;" scope="col" class="table-info">Esp. de Ventas?</th>
+							<th style="text-align: center;" scope="col" class="table-info">Acciones</th>
+						</tr>
+					</thead>
+					<tbody id="rowsProductos">
+
+						<tr>
+							<!--<th scope="row">0</th>-->
+
+
+							<td id="p_cod"><input type="text" class="form-control form-control-sm" name="p_cod" id="#"
+									aria-describedby="helpId" placeholder="" required></td>
+							<td id="p_descripcion"><input type="text" class="form-control form-control-sm"
+									name="p_descripcion" id="#" aria-describedby="helpId" placeholder="" required></td>
+							<td id="p_desde"><input type="date" class="form-control form-control-sm" name="p_desde"
+									id="#" aria-describedby="helpId" placeholder="" required></td>
+							<td id="p_hasta"><input type="date" class="form-control form-control-sm" name="p_hasta"
+									id="#" aria-describedby="helpId" placeholder="" required></td>
+							<td id="">
+								<select type="text" class="form-control form-control-sm" name="txtRestringido" id="#"
+									aria-describedby="helpId" placeholder=""
+									style="max-width: 50px; margin-left: 30px;">
+									<option>no</option>
+									<option>si</option>
+								</select>
+							</td>
+							<td id="acciones">
+								<div class="d-grid gap-2 col-6 mx-auto">
+									<button type="submit" class="btn btn-dark btn-sm">Agregar</button>
+								</div>
+							</td>
+						</tr>
+
+					</tbody>
+				</form>
+			</table>
+		</div>
+	</div>
+	</br>
+	</br>
+	<div class="card border-info">
+		<div class="card-header">
+			<h4>Productos:</h4>
+		</div>
+		<div class="card-body">
+			<table id="myTable">
+				<thead>
+					<tr>
+						<!--<th scope="col" class="table-info">#</th>-->
+
+
+						<th style="text-align: center;" scope="col" class="table-info">Código</th>
+						<th style="text-align: center;" scope="col" class="table-info">Descripción</th>
+						<th style="text-align: center;" scope="col" class="table-info">desde</th>
+						<th style="text-align: center;" scope="col" class="table-info">hasta</th>
+						<th style="text-align: center;" scope="col" class="table-info">Esp. de Ventas?</th>
+						<th style="text-align: center;" scope="col" class="table-info">Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for producto in productos %}
+					<tr>
+						<!--<th scope="row">0</th>-->
+
+
+						<td id="p_cod" align="left">{{producto[1]}}</td>
+						<td id="p_descripcion" align="left">{{producto[2]}}</td>
+						<td id="p_desde" align="center">{{producto[3]}}</td>
+						<td id="p_hasta" align="center">{{producto[4]}}</td>
+						<td id="p_hasta" align="center">{{producto[5]}}</td>
+						<td id="acciones" align="center">
+
+							<div class="row">
+								<div class="col-6">
+									<a class="btn btn-secondary btn-sm" href="/admin/editarProducto/{{producto[0]}}"
+										role="button" style="display:center;">Editar</a>
+								</div>
+
+								<div class="col-6">
+									<a class="btn btn-dark btn-sm" href="/admin/productos/borrar/{{producto[0]}}"
+										role="button" style="display:center;">Borrar</a>
+								</div>
+							</div>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<!-- -------------------------------------------------------------->
+
+
+			</form>
+
+		</div>
+
+	</div>
+
+</div>
+
+
+
+
+{% include 'admin/pie.html' %}

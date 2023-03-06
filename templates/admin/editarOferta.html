@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Oces</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.2.0-beta1 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="col" style="padding-top: 30px">
+        <img src="http://www.laboratoriosbeta.com.ar/wp-content/uploads/2013/04/Logo-Beta1.png"
+            alt="laboratoriosbeta.com">
+    </div>
+
+    <nav class="navbar navbar-expand navbar-light bg-light">
+        <div style="margin:auto;">
+            <h1 style="display:center;">Oferta comercial editar:</h1>
+        </div>
+    </nav>
+    <div class="container">
+        <br />
+        <div class="card-body">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8" style="max-width: 800px;">
+                    {% for oferta in ofertas %}
+                    <form action="/admin/editarOfertas/editar" method="post" enctype="multipart/form-data">
+                        <div id="" name="">
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" name="txtId" id="#"
+                                            aria-describedby="helpId" placeholder="" value="{{oferta[0]}}" hidden>
+                                    </div>
+                                    <div class="col-8">
+                                        <label for="" class="form-label">Oferta Comercial:</label>
+                                        <input type="text" class="form-control" name="" id="#" aria-describedby="helpId"
+                                            placeholder="" value="{{oferta[2]}}" disabled>
+
+                                    </div>
+                                    <div class="col-2">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-2">
+
+                                    </div>
+                                    <div class="col-8">
+                                        <label for="" class="form-label">Producto:</label>
+                                        <input type="text" class="form-control" name="" id="#" aria-describedby="helpId"
+                                            placeholder="" value="{{oferta[9]}}" disabled>
+
+                                    </div>
+                                    <div class="col-2">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="col-2">
+                                        <div>
+                                            <label for="cantidadM" class="form-label">Cant. minima:</label>
+                                            <input type="text" class="form-control" name="txtMinProducto" id="#"
+                                                aria-describedby="helpId" placeholder="" value="{{oferta[13]}}"
+                                                style="max-width: 60px;">
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div>
+                                            <label for="cantidadM" class="form-label">Descuento %:</label>
+                                            <input type="text" class="form-control" name="txtDescProducto" id="#"
+                                                aria-describedby="helpId" placeholder="" value="{{oferta[14]}}"
+                                                style="max-width: 60px;">
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div>
+                                            <label for="txtObligatorio" class="form-label">Obligatorio:</label>
+                                            <select name="txtObligatorio" id="txtObligatorio">
+                                                <option value="{{oferta[16]}}">{{oferta[16]}}</option>
+                                                <option value="si">Si</option>
+                                                <option value="no">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-2">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-4">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" class="btn btn-dark"
+                                            style="display:center;">Guardar</button>
+                                    </div>
+                                    <div class="col-4">
+                                        <a class="btn btn-secondary btn-mg" href="/admin/verOfertas"
+                                            role="button">Volver</a>
+                                    </div>
+                                    <div class="col-2">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {% endfor %}
+                <div class="col-2"></div>
+            </div>
+        </div>
+        {% include 'admin/pie.html' %}

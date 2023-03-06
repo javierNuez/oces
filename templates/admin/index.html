@@ -1,0 +1,23 @@
+{% include 'admin/cabecera.html' %}
+{% if usuarioStorage == "" %}
+<script>
+        window.location.href = "/";
+</script>
+{% endif %}
+<div>
+    {% if usuarioStorage %}
+    <strong>Bienvenido usuario: {{ usuarioStorage[-5:].capitalize() }}</strong>
+    {% endif %}
+</div>
+
+
+<div class="p-5 bg-light">
+    <div class="container">
+        <h1 class="display-3">Oces Administrador</h1>
+        <!--<p class="lead">Bienvenid@</p>-->
+        <hr class="my-2">
+        <p>Laboratorios Beta SA</p>
+
+    </div>
+</div>
+{% include 'admin/pie.html' %}

@@ -1,0 +1,142 @@
+{% include 'admin/cabecera.html' %}
+<script>
+	var hashUsuario = sessionStorage.getItem("hash");
+	if (!(hashUsuario)) {
+		window.location.href = "/";
+	}
+</script>
+{% block content %}
+{% if usuarioStorage %}
+<div class="alert alert-succsses alert-dismissible fade show" role="alert">
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	<strong>¡Bienvenido usuario: ¡{{ usuario }}!</strong>
+</div>
+<h1>Bienvenido: {{ usuario }} </h1>
+{% endif %}
+{% endblock %}
+
+{% with messages= get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	<strong>¡Cuidado!</strong> {% for message in messages %}{{ message }}{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+<br>
+
+
+
+
+<div class="card-header">
+	<h4>Usuarios:</h4>
+</div>
+<div class="card-body">
+
+	<table id="tblContact" class="table table-sm border-info">
+		<thead>
+			<tr>
+				<!--<th scope="col" class="table-info">#</th>-->
+
+				<th style="text-align: center;" scope="col" class="table-info">Nombre</th>
+				<th style="text-align: center;" scope="col" class="table-info">Apellido</th>
+				<th style="text-align: center;" scope="col" class="table-info">Rrdzz(5díg.)</th>
+				<th style="text-align: center;" scope="col" class="table-info">E-mail</th>
+				<th style="text-align: center;" scope="col" class="table-info">Desde</th>
+				<th style="text-align: center;" scope="col" class="table-info">Hasta</th>
+				<th style="text-align: center;" scope="col" class="table-info">Contraseña</th>
+				<th style="text-align: center;" scope="col" class="table-info">Roll</th>
+				<th style="text-align: center;" scope="col" class="table-info">Habilitado</th>
+				<th style="text-align: center;" scope="col" class="table-info">Acciones</th>
+			</tr>
+		</thead>
+		<tbody id="rowsUsuarios">
+			<form action="/admin/usuarios/guardar" method="post" enctype="multipart/form-data">
+				<tr>
+					<!--<th scope="row">0</th>-->
+
+					<td id="u_nombre"><input type="text" class="form-control form-control-sm" name="txtNombre" id="#"
+							aria-describedby="helpId" placeholder=""></td>
+					<td id="u_apellido"><input type="text" class="form-control form-control-sm" name="txtApellido"
+							id="#" aria-describedby="helpId" placeholder=""></td>
+					<td id="u_rrdzz"><input type="text" class="form-control form-control-sm" name="txtRrdzz" id="#"
+							aria-describedby="helpId" placeholder="" maxlength="5" minlength="5" required></td>
+					<td id="u_mail"><input type="email" class="form-control form-control-sm" name="txtMail" id="#"
+							aria-describedby="helpId" placeholder="" required></td>
+					<td id="u_fecha_i"><input type="date" class="form-control form-control-sm" name="txtDesde" id="#"
+							aria-describedby="helpId" placeholder="" required></td>
+					<td id="u_fecha_f"><input type="date" class="form-control form-control-sm" name="txtHasta" id="#"
+							aria-describedby="helpId" placeholder="" required></td>
+					<td id="u_pass"><input type="password" class="form-control form-control-sm" name="txtPass" id="#"
+							aria-describedby="helpId" placeholder="" required></td>
+					<td id="u_roll"><select name="txtRoll" id="txtRoll">
+							<option value="">Seleccione</option>
+							<option value="ADM">Admin</option>
+							<option value="SUP">Supervisor</option>
+							<option value="APM">APM</option>
+						</select></td>
+					<td id="u_habilitado">
+						<select name="txtHabilitado" id="txtHabilitado">
+							<option>Seleccione</option>
+							<option value="si">Si</option>
+							<option value="no">No</option>
+						</select>
+					</td>
+					<td id="acciones">
+						<div class="d-grid gap-2 col">
+							<button type="submit" class="btn btn-dark btn-sm">Agregar</button>
+						</div>
+					</td>
+				</tr>
+			</form>
+		</tbody>
+		<tbody id="rowsUsuarios">
+			{% for usuario in usuarios %}
+			<tr>
+				<!--<th scope="row">0</th>-->
+
+				<td id="u_nombre" align="center">{{usuario[1]}}</td>
+				<td id="u_apellido" align="center">{{usuario[2]}}</td>
+				<td id="u_rrdzz" align="center">{{usuario[3]}}</td>
+				<td id="u_mail" align="center">{{usuario[4]}}</td>
+				<td id="u_fecha_i" align="center">{{usuario[5]}}</td>
+				<td id="u_fecha_f" align="center">{{usuario[6]}}</td>
+
+				<td id="u_pass"><input type="password" class="form-control form-control-sm" name="txtPass"
+						value="{{usuario[7]}}" aria-describedby="helpId" placeholder="" disabled></td>
+				<td id="u_roll"><input type="text" class="form-control form-control-sm" name="txtRoll"
+						value="{{usuario[8]}}" aria-describedby="helpId" placeholder="" disabled></td>
+				<td id="u_habilitado" align="center">{{usuario[10]}}</td>
+				<td id="acciones" align="center">
+
+					<div class="row">
+						<div class="col">
+							<a class="btn btn-secondary btn-sm" href="/admin/editarUsuarios/{{usuario[0]}}"
+								role="button" style="display:center;">Editar</a>
+						</div>
+						<div class="col">
+							<a class="btn btn-dark btn-sm" href="/admin/usuarios/borrar/{{usuario[0]}}" role="button"
+								style="display:center;">Borrar</a>
+						</div>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+
+
+</div>
+<div class="card-footer text-muted">
+
+</div>
+
+
+
+
+
+
+
+
+{% include 'admin/pie.html' %}

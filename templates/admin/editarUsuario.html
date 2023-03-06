@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Oces</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.2.0-beta1 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="col" style="padding-top: 30px">
+        <img src="http://www.laboratoriosbeta.com.ar/wp-content/uploads/2013/04/Logo-Beta1.png"
+            alt="laboratoriosbeta.com">
+    </div>
+
+    <nav class="navbar navbar-expand navbar-light bg-light">
+        <div style="margin:auto;">
+            <h1 style="display:center;">Usuarios</h1>
+        </div>
+
+    </nav>
+    <div class="container">
+        <br />
+        <div class="card-body">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8" style="max-width: 800px;">
+                    {%for usuario in usuarios %}
+                    <form action="/admin/editarUsuario/editar" method="post" enctype="multipart/form-data">
+                        <div id="" name="">
+                            <div class="card-header">
+                                <h4>Editar Usuario:</h4>
+                            </div>
+                            <div class="card-group">
+                                <div class="card">
+                                    <div class="card-body" hidden>
+                                        <label for="txtID" class="form-label">ID:</label>
+                                        <input class="form-control" value="{{usuario[0]}}" type="text" name="txtID"
+                                            id="txtID">
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="txtNombre" class="form-label">Nombre:</label>
+                                        <input class="form-control" value="{{usuario[1]}}" type="text" name="txtNombre"
+                                            id="txtNombre">
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="txtApellido" class="form-label">Apellido:</label>
+                                        <input class="form-control" value="{{usuario[2]}}" type="text"
+                                            name="txtApellido" id="txtApellido">
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="txtRrdzz" class="form-label">Rrdzz:</label>
+                                        <input class="form-control" value="{{usuario[3]}}" type="text" name="txtRrdzz"
+                                            id="txtRrdzz">
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="txtMail" class="form-label">E-Mail:</label>
+                                        <input class="form-control" value="{{usuario[4]}}" type="email" name="txtMail"
+                                            id="txtMail">
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="txtDesde" class="form-label">Desde:</label>
+                                        <input class="form-control" value="{{usuario[5]}}" type="date" name="txtDesde"
+                                            id="txtDesde">
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="txtHasta" class="form-label">Hasta:</label>
+                                        <input class="form-control" value="{{usuario[6]}}" type="date" name="txtHasta"
+                                            id="txtHasta">
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="txtPass" class="form-label">Contraseña:</label>
+                                        <input class="form-control" value="{{usuario[7]}}" type="password"
+                                            name="txtPass" id="txtPass">
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="txtRoll" class="form-label">Roll:</label>
+                                        <select name="txtRoll" id="txtRoll">
+                                            <option value="{{usuario[8]}}">{{usuario[8]}}</option>
+                                            <option value="ADM">Admin</option>
+                                            <option value="SUP">Supervisor</option>
+                                            <option value="APM">APM</option>
+                                        </select>
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="txtHabilitado" class="form-label">Habilitado:</label>
+                                        <select name="txtHabilitado" id="txtHabilitado">
+                                            <option value="{{usuario[10]}}">{{usuario[10]}}</option>
+                                            <option value="si">Si</option>
+                                            <option value="no">No</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-4">
+
+                                            </div>
+                                            <div class="col-2">
+                                                <button type="submit" class="btn btn-info btn-mg">Guardar</button>
+                                            </div>
+                                            <div class="col-2">
+                                                <p class="lead">
+                                                    <a class="btn btn-secondary" href="/admin/usuarios" role="button"
+                                                        style="display:center;">Volver</a>
+                                                </p>
+                                            </div>
+                                            <div class="col-4">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            </br>
+                        </div>
+
+
+                    </form>
+                </div>
+                {% endfor %}
+                <div class="col-2"></div>
+            </div>
+        </div>
+        {% include 'admin/pie.html' %}

@@ -1,0 +1,116 @@
+{% include 'admin/cabecera.html' %}
+<script>
+    var hashUsuario = sessionStorage.getItem("hash");
+    if (!(hashUsuario)) {
+        window.location.href = "/";
+    }
+</script>
+<br>
+<br>
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+        <h4 align="center">Pedidos especiales:</h4>
+    </div>
+    <div class="col-4"></div>
+</div>
+{% with messages= get_flashed_messages() %}
+
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <strong>¡Cuidado!</strong> {% for message in messages %}{{ message }}{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <div class="card-body">
+            {% if usuario %}
+            <input type="number" name="txtUsuario" value="{{usuario}}" hidden>
+            {% endif %}
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col">
+                        <label for="" class="form-label">Droguerías:</label>
+
+                        <form action="/admin/conformarEspecial01/drogueria/" method="post"
+                            enctype="multipart/form-data">
+                            <input type="text" id="hashUsuarioO" name="hashUsuarioO" hidden>
+                            <script>
+                                var hashUsuario = sessionStorage.getItem("hash");
+                                document.getElementById("hashUsuarioO").value = hashUsuario;
+                            </script>
+
+                            <div class="row">
+                                <div class="col">
+                                    <select class="form-select form-select-sm" name="txtDrogueria"
+                                        onchange="this.form.submit()" autofocus>
+
+                                        <option>Seleccione</option>
+                                        {% for drogueria in droguerias %}
+                                        <option value="{{drogueria[1]}}">
+                                            {{drogueria[1]}}-{{drogueria[2]}}
+                                        </option>
+                                        {% endfor %}
+
+                                    </select>
+
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col">
+                        <label for="" class="form-label">Clientes:</label>
+
+                        <div class="row">
+                            <div class="col">
+                                <select class="form-select form-select-sm" aria-label="" name="" disabled>
+                                    <option>Seleccione</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col">
+
+
+                        <div class="row">
+                            <div class="col-5">
+                            </div>
+                            <div class="col-2">
+                                <a href="/admin/inicio" class="btn btn-dark btn-mg">Inicio</a>
+
+                            </div>
+                            <div class="col-5">
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-3"></div>
+</div>
+
+</div>
+</div>
+</div>
+
+
+
+{% include 'admin/pie.html' %}

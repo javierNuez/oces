@@ -1,0 +1,264 @@
+{% include 'admin/cabecera.html' %}
+<input type="text" id="hashUsuarioO" hidden>
+<script>
+    var hashUsuario = sessionStorage.getItem("hash");
+    console.log(hashUsuario);
+    document.getElementById("hashUsuarioO").value = hashUsuario;
+
+    if (!(hashUsuario)) {
+        window.location.href = "/";
+    }
+
+</script>
+{% with messages= get_flashed_messages() %}
+{% if messages == 'No se encontraron pedidos "Aprobados"' %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <strong>¡Cuidado!</strong> {% for message in messages %}{{ message }}{% endfor %}
+</div>
+{% endif %}
+{% if messages != 'No se encontraron pedidos "Aprobados"' and messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <strong>¡Ok!</strong> {% for message in messages %}{{ message }}{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+<div class="card-body" style="min-width: 1200px;">
+    {% include 'admin/pedidosf.html' %}
+</div>
+
+<div class="card-body" style="min-width: 1200px;">
+
+    <div class="card border-info">
+
+        <div class="card-body" style="margin-left: 0%;">
+
+            <table id="myTable" class="table-light">
+
+                <thead>
+                    <tr class="table-light">
+                        <th scope="col" style="text-align:center;">Pedido nº</th>
+                        <th scope="col" style="text-align:center;">Usuario</th>
+                        <th scope="col" style="text-align:center;">Cod.Drog</th>
+                        <th scope="col" style="text-align:center;">Drogueria</th>
+                        <th scope="col" style="text-align:center;">Cod.Cli.</th>
+                        <th scope="col" style="text-align:center;">Cliente.</th>
+                        <th scope="col" style="text-align:center;">Unidades</th>
+                        <th scope="col" style="text-align:center;">Fecha</th>
+                        <th scope="col" style="text-align:center;">Estado</th>
+                        <th scope="col" style="text-align:center;">Acciones</th>
+                        <th scope="col" style="text-align:center;"></th>
+                    </tr>
+                </thead>
+                {% for i in lospedidos %}
+                <tr class="table-light">
+
+                    <td style="text-align: center;" scope="col" class="table-light">
+
+                        {% if i[0] < 100 %} 00{{i[0]}} {% endif %} {% if i[0]>= 100 %}
+                            0{{i[0]}}
+                            {% endif %}
+
+                    </td>
+                    <td style="text-align: center;" scope="col" class="table-light">
+
+                        {{i[1]}}
+                    </td>
+                    <td style="text-align: center;" scope="col" class="table-light">
+
+                        {{i[2]}}
+                    </td>
+                    <td style="text-align: center;" scope="col" class="table-light">
+
+                        {{i[9]}}
+                    </td>
+
+                    <td style="text-align: center;" scope="col" class="table-light">
+                        {{i[3]}}
+                    </td>
+                    <td style="text-align: center;" scope="col" class="table-light">
+
+                        {{i[10]}}
+                    </td>
+                    <td style="text-align: center;" scope="col" class="table-light">
+                        {{i[7]}}
+                        <input class="unidad" type="number" value="{{i[7]}}" hidden>
+                    </td>
+                    <td style="text-align: center;" scope="col" class="table-light">
+
+                        {{i[5]}}
+                    </td>
+
+                    <td style="text-align: center;" scope="col" class="table-light">
+                        {% if i[6]=="Aprobado" %}
+
+                        <!--<h6 style="color: rgb(23, 120, 14);">Aprobado</h6>-->
+                        <h6 style="color: rgb(0, 0, 0);" hidden>Aprobado</h6>
+                        Aprobado
+                        {% endif %}
+                        {% if i[6]=="Sin aprobar" %}
+                        <!--<h6 style="color: rgb(226, 55, 55);">Sin aprobar</h6>-->
+                        <h6 style="color: rgb(0, 0, 0);" hidden>Sin aprobar</h6>
+                        Sin aprobar
+
+                        {% endif %}
+                        {% if i[6]=="Procesado" %}
+                        <!--<h6 style="color: rgb(28, 145, 223);">Procesado</h6>-->
+                        <h6 style="color: rgb(0, 0, 0);">Procesado</h6>
+
+                        {% endif %}
+                        {% if i[6]=="Revisar" %}
+                        <!--<h6 style="color: rgb(230, 156, 60);">Revisar</h6>-->
+                        <h6 style="color: rgb(0, 0, 0);" hidden>Revisar</h6>
+                        Revisar
+
+                        {% endif %}
+
+                    </td>
+
+                    <td id="acciones" align="center">
+                        <div class="row">
+                            {% if i[6]=="Sin aprobar" %}
+                            <div class="col-3">
+                                <a href="/admin/aprobar/{{i[0]}}">
+                                    <img src="{{ url_for( 'static', filename='img/ok2.png' ) }}"
+                                        style="height: 20px;width:20px;" title="Aprobar">
+                                </a>
+                            </div>
+                            <div class="col-3">
+                                <a href="/admin/revisar/{{i[0]}}"><img
+                                        src="{{ url_for( 'static', filename='img/revisar.svg' ) }}"
+                                        style="height: 20px;width:20px;" title="Revisar"></a>
+                            </div>
+                            <div class="col-3">
+                                <a href="#"><img src="{{ url_for( 'static', filename='img/cuidado3.png' ) }}"
+                                        style="height: 20px;width:20px;opacity: 25%;" title="Sin aprobar"></a>
+                            </div>
+                            <div class="col-3">
+                                <a href="#"><img src="{{ url_for( 'static', filename='img/tachito.svg' ) }}"
+                                        style="height: 20px;width:20px;opacity: 25%;" title="Eliminar"></a>
+                            </div>
+
+                            {% endif %}
+
+                            {% if i[6]=="Aprobado" %}
+                            <div class="col-3">
+                                <a href="#">
+                                    <img src="{{ url_for( 'static', filename='img/ok2.png' ) }}"
+                                        style="height: 20px;width:20px; opacity: 25%;" title="Aprobar">
+                                </a>
+                            </div>
+                            <div class="col-3">
+                                <a href="#"><img src="{{ url_for( 'static', filename='img/revisar.svg' ) }}"
+                                        style="height: 20px;width:20px;opacity: 25%;" title="Revisar"></a>
+                            </div>
+                            <div class="col-3">
+                                <a href="/admin/rechazar/{{i[0]}}"><img
+                                        src="{{ url_for( 'static', filename='img/cuidado3.png' ) }}"
+                                        style="height: 20px;width:20px;" title="Sin aprobar"></a>
+                            </div>
+                            <div class="col-3">
+                                <a href="#"><img src="{{ url_for( 'static', filename='img/tachito.svg' ) }}"
+                                        style="height: 20px;width:20px;opacity: 25%;" title="Eliminar"></a>
+                            </div>
+
+
+                            {% endif %}
+                            {% if i[6]=="Revisar" %}
+                            <div class="col-3">
+                                <a href="#">
+                                    <img src="{{ url_for( 'static', filename='img/ok2.png' ) }}"
+                                        style="height: 20px;width:20px; opacity: 25%;" title="Aprobar">
+                                </a>
+                            </div>
+                            <div class="col-3">
+                                <a href="#"><img src="{{ url_for( 'static', filename='img/revisar.svg' ) }}"
+                                        style="height: 20px;width:20px;opacity: 25%;" title="Revisar"></a>
+                            </div>
+                            <div class="col-3">
+                                <a href="/admin/rechazar/{{i[0]}}"><img
+                                        src="{{ url_for( 'static', filename='img/cuidado3.png' ) }}"
+                                        style="height: 20px;width:20px;" title="Sin aprobar"></a>
+                            </div>
+                            <div class="col-3">
+                                <a href="/admin/eliminar/{{i[0]}}"><img
+                                        src="{{ url_for( 'static', filename='img/tachito.svg' ) }}"
+                                        style="height: 20px;width:20px;" title="Eliminar"></a>
+                            </div>
+
+                            {% endif %}
+                            {% if i[6]=="Procesado" %}
+                            <div class="col-3">
+                                <a href="#"><img src="{{ url_for( 'static', filename='img/verificado.png' ) }}"
+                                        style="height: 20px;width:20px;" title="Procesado"></a>
+                            </div>
+                            <div class="col-3">
+
+                            </div>
+                            <div class="col-3">
+                            </div>
+                            <div class="col-3">
+                            </div>
+                            {% endif %}
+
+                    </td>
+                    <td style="text-align: center;" scope="col" class="table-light">
+                        <a class="btn btn-dark btn-sm"
+                            href="javascript:finestraSecundaria('/admin/pedidorealizado/{{i[0]}}')"
+                            style="width: 50px; height: 27.99px; padding-top: 2px;">
+                            <h6>ver</h6>
+                        </a>
+                    </td>
+                </tr>{% endfor %}
+
+
+            </table>
+
+        </div>
+
+
+        <script>
+            let tot = document.getElementById("tot");
+            let total = 0;
+            let unidades = document.getElementsByClassName("unidad");
+
+            for (let i of unidades) total += parseInt(i.value);
+            tot.innerHTML = total + " unidades pendientes.";
+            console.log(total)
+
+        </script>
+
+    </div>
+
+</div>
+<div align="center">
+    <form action="/admin/procesarOfertas" method="post" enctype="multipart/form-data">
+        <div class="col-2" style="padding-top: 25px;">
+            <button class="btn btn-dark btn-md" type="submit" style="margin:auto ;" onclick="actualizar()">Procesar
+                aprobados</button>
+        </div>
+    </form>
+</div>
+
+</div>
+<script>
+    function finestraSecundaria(url) {
+        let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
+width=800,height=700,left=-1000,top=-1000`;
+        window.open(url, "Diseño Web", params)
+    }
+    function cambio() {
+
+        window.location.replace('/admin/pedidos');
+    }
+    function actualizar() {
+        /*alert("Se estan procesando los pedidos aprobados.");*/
+        setTimeout(cambio, 3000);
+    }
+
+</script>
+
+
+
+{% include 'admin/pie.html' %}

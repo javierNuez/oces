@@ -1,0 +1,144 @@
+{% include 'admin/cabecera.html' %}
+<script>
+    var hashUsuario = sessionStorage.getItem("hash");
+    if (!(hashUsuario)) {
+        window.location.href = "/";
+    }
+</script>
+{% with messages= get_flashed_messages() %}
+
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <strong>¡Cuidado!</strong> {% for message in messages %}{{ message }}{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+<br>
+<form form action="/admin/ofertas/guardar" method="post" enctype="multipart/form-data">
+    <div class="card border-info">
+        <div class="card-header">
+            <h3>Agregar oferta comercial:</h3>
+            <h4>Módulos:</h4>
+        </div>
+        <div class="card-body">
+            {% for modulo in modulos %}
+            <input type="text" class="form-control" name="txtModulo" id="#"
+                value="{{modulo[0]}}#{{modulo[1]}}#{{modulo[2]}}#{{modulo[3]}}#{{modulo[4]}}#{{modulo[5]}}#{{modulo[6]}}#{{modulo[7]}}"
+                hidden>{%
+            endfor %}
+
+            <select class="form-select form-select-sm" aria-label="Oferta comercial vigente" name="" id="txtModulo"
+                disabled>
+                {% for modulo in modulos %}
+                <option>
+                    {{modulos[0][1]}}
+                </option>
+
+                {% endfor %}
+            </select>
+
+        </div>
+    </div>
+
+    <br>
+    <div class="card border-info">
+        <div class="card-header">
+            <h4>Productos:</h4>
+        </div>
+        <div class="card-body">
+
+            <table id="tblContact" class="table table-sm">
+
+                <thead>
+                    <tr>
+
+                        <th style="text-align: center;" scope="col" class="table-info">Productos</th>
+                        <th style="text-align: center;" scope="col" class="table-info">Cant. Min.</th>
+                        <th style="text-align: center;" scope="col" class="table-info">Descuento %</th>
+                        <th style="text-align: center;" scope="col" class="table-info">Obligatorio</th>
+
+                    </tr>
+                </thead>
+                {% for producto in productos %}
+                <tbody>
+                    {% if producto[6] > 0 %}
+                    <tr style="background-color:rgb(235, 237, 238)">
+                        {% endif %}
+                        {% if producto[6] == 0 %}
+                    <tr>
+                        {% endif %}
+
+                        <td id="">
+                            <input type="text" name="txtProducto{{producto[0]}}" id="txtProducto{{producto[0]}}"
+                                value="{{producto[0]}}#{{producto[1]}}#{{producto[2]}}#{{producto[3]}}#{{producto[4]}}#{{producto[5]}}"
+                                hidden>
+                            <h5>{{producto[2]}}</h5>
+
+
+                        </td>
+
+                        <td id="">
+                            {% if producto[6] > 0 %}
+                            <input type="number" class="form-control" name="txtMinima{{producto[0]}}" id="minima"
+                                aria-describedby="helpId" value="{{producto[6]}}" style="max-width: 100px;margin:auto;"
+                                min="0">
+                            {% endif %}
+                            {% if producto[6] == 0 %}
+                            <input type="number" class="form-control" name="txtMinima{{producto[0]}}" id="minima"
+                                aria-describedby="helpId" value="0" style="max-width: 100px;margin:auto;" min="0">
+                            {% endif %}
+
+                        </td>
+                        <td id="">
+                            {% if producto[7] != "0" %}
+                            <input type="text" class="form-control" name="txtDescuento{{producto[0]}}" id="descuento"
+                                aria-describedby="helpId" style="max-width: 100px;margin:auto;" value="{{producto[7]}}"
+                                pattern="[0-9]+([\.][0-9]+)?" title="Ingrese solo números con punto decimal."
+                                formnovalidate />
+                            {% endif %}
+                            {% if producto[7] == "0" %}
+                            <input type="text" class="form-control" name="txtDescuento{{producto[0]}}" id="descuento"
+                                aria-describedby="helpId" style="max-width: 100px;margin:auto;" value="0"
+                                pattern="[0-9]+([\.][0-9]+)?" title="Ingrese solo números con punto decimal."
+                                formnovalidate />
+                            {% endif %}
+
+                        </td>
+                        <td id="">
+                            {% if producto[8]== "no" %}
+                            <select class="form-select" name="txtObligatorio{{producto[0]}}" id="txtObligatorio">
+
+                                <option value="{{producto[8]}}">No</option>
+                                <option value="si">Si</option>
+
+                            </select>
+                            {% endif %}
+                            {% if producto[8]== "si" %}
+                            <select class="form-select" name="txtObligatorio{{producto[0]}}" id="txtObligatorio">
+
+                                <option value="{{producto[8]}}">Si</option>
+                                <option value="no">No</option>
+
+                            </select>
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+                {% endfor %}
+            </table>
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button type="submit" class="btn btn-dark btn-sm" style="margin: auto;">Agregar</button>
+            </div>
+        </div>
+    </div>
+</form>
+<br>
+
+</div>
+
+{% include 'admin/pie.html' %}

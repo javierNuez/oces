@@ -1,0 +1,93 @@
+{% include 'admin/cabecera.html' %}
+<script>
+	var hashUsuario = sessionStorage.getItem("hash");
+	if (!(hashUsuario)) {
+		window.location.href = "/";
+	}
+</script>
+
+<br>
+
+
+<div class="card-body" style="min-height: 500px;">
+	<div class="card border-info">
+		<div class="card-header">
+			<h4>Droguerias:</h4>
+		</div>
+		<div class="card-body">
+			<form action="/admin/droguerias/guardar" method="post" enctype="multipart/form-data">
+				<table id="tblContact" class="table table-sm">
+					<thead>
+						<tr>
+							<!--<th scope="col" class="table-info">#</th>-->
+							<th style="text-align: center;" scope="col" class="table-info">Cód.Drogueria</th>
+							<th style="text-align: center;" scope="col" class="table-info">Razón Social</th>
+							<th style="text-align: center;" scope="col" class="table-info">Acciones</th>
+						</tr>
+					</thead>
+					<tbody id="rowsDroguerias">
+
+						<tr>
+							<!--<th scope="row">0</th>-->
+
+
+							<td id="d_cod"><input type="text" class="form-control form-control-sm" name="d_cod" id="#"
+									aria-describedby="helpId" placeholder=""></td>
+							<td id="d_descripcion"><input type="text" class="form-control form-control-sm"
+									name="d_descripcion" id="#" aria-describedby="helpId" placeholder=""></td>
+							<td id="acciones">
+								<div class="d-grid gap-2 col-6 mx-auto">
+									<button type="submit" class="btn btn-dark btn-sm">Agregar</button>
+								</div>
+							</td>
+						</tr>
+
+					</tbody>
+					<tbody id="rowsDroguerias">
+						{% for drogueria in droguerias %}
+						<tr>
+							<!--<th scope="row">0</th>-->
+
+
+							<td id="d_cod" align="center">{{drogueria[1]}}</td>
+							<td id="d_descripcion" align="center">{{drogueria[2]}}</td>
+
+							<td id="acciones" align="center">
+
+								<div class="row">
+									<div class="col-6">
+										<div class="col-6">
+											<a class="btn btn-secondary btn-sm"
+												href="/admin/editarDroguerias/{{drogueria[0]}}" role="button"
+												style="display:center;">Editar</a>
+										</div>
+									</div>
+									<div class="col-6">
+										<a class="btn btn-dark btn-sm" href="/admin/droguerias/borrar/{{drogueria[0]}}"
+											role="button" style="display:center;"
+											onclick="return confirm('¿Desea borrar la drogueria? {{drogueria[2]}}')">Borrar</a>
+
+									</div>
+								</div>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<!-- -------------------------------------------------------------->
+
+
+			</form>
+
+		</div>
+		<div class="card-footer text-muted">
+
+		</div>
+	</div>
+
+</div>
+
+
+
+
+{% include 'admin/pie.html' %}

@@ -1,0 +1,164 @@
+{% include 'sup/cabecera.html' %}
+{% with messages= get_flashed_messages() %}
+
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <strong>¡Cuidado!</strong> {% for message in messages %}{{ message }}{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+<br>
+<br>
+
+<form action="/sup/conformarEspecial04/cliente/" method="post" enctype="multipart/form-data">
+    <input type="text" id="hashUsuarioO" name="hashUsuarioO" hidden>
+    <script>
+        var hashUsuario = sessionStorage.getItem("hash");
+        document.getElementById("hashUsuarioO").value = hashUsuario;
+    </script>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <h4 align="center">Pedidos especial:</h4>
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="card-body">
+                {% if usuario %}
+                <input type="number" name="txtUsuario" value="{{usuario}}" hidden>
+                {% endif %}
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col">
+
+                            <label for="" class="form-label">Droguerías:</label>
+                            {% if droguerias %}
+                            <input type="text" value="{{droguerias[0][1]}}" name="txtDrogueria2" hidden>
+                            {% endif %}
+                            <div class="row">
+                                <div class="col">
+                                    <select class="form-select form-select-sm" aria-label="" name="txtDrogueria"
+                                        disabled>
+                                        {% if droguerias %}
+                                        <option value="{{droguerias[0][1]}}">
+                                            {{droguerias[0][1]}}-{{droguerias[0][2]}}</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col">
+                                <label for="" class="form-label">Clientes:</label>
+                                {% if clientes %}
+                                <input type="text" value="{{clientes[0][4]}}" name="txtCliente2" hidden>
+                                {% endif %}
+
+                                <div class="row">
+                                    <div class="col">
+                                        <select class="form-select form-select-sm" name="txtCliente" disabled>
+                                            {% if clientes %}
+                                            <option value="{{clientes[0][4]}}">
+                                                {{clientes[0][4]}}-{{clientes[0][5]}}
+                                            </option>
+                                            {% endif %}
+
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col">
+
+
+                                <div class="row">
+                                    <div class="col-5">
+                                    </div>
+                                    <div class="col-2">
+
+
+                                    </div>
+                                    <div class="col-5">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+
+    <div class="row" hidden>
+        <div class="col-4"></div>
+        <div class="col-4">
+            <h4>Oferta comercial:</h4>
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+
+    <div class="row">
+        <div class="card-body">
+
+            <table id="tblContact" class="table table-sm" hidden>
+                <thead>
+                    <tr>
+                        <th style="text-align: center;" scope="col-md-1" class="table-info">Cód.
+                        </th>
+                        <th style="text-align: center;" scope="col-md-1" class="table-info">
+                            Producto</th>
+
+                        <th style="text-align: center;" scope="col-md-1" class="table-info">
+                            Mínimo
+                        </th>
+                        <th style="text-align: center;" scope="col-md-1" class="table-info">
+                            Descuento</th>
+                        <th style="text-align: center;" scope="col-md-1" class="table-info">
+                            Unidades
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="rowsPedidos" name="rowsPedidos">
+                    {% for oferta in ofertas %}
+                    <tr>
+                        <td id="" align="left">{{oferta[9]}}</td>
+                        <td id="" align="left">{{oferta[10]}}</td>
+                        <td id="" align="center" name="numeroMenor">{{oferta[13]}}</td>
+                        <td id="" align="center">{{oferta[14]}}%</td>
+                        <td id="" align="center">
+                            <input type="number" name="unidades{{oferta[0]}}" style="width:40px;" id=""
+                                min="{{oferta[13]}}">
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+    <div class="card-footer text-muted" align="center">
+        <a href="/sup/conformarEspecial00" class="btn btn-dark btn-mg">Volver</a>
+        <button class="btn btn-success btn-md" type="submit" style="margin:auto ;">Confirmar</button>
+    </div>
+
+</form>
+<!--Javier actualización-->
+
+{% include 'sup/pie.html' %}

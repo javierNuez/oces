@@ -1,0 +1,21 @@
+{% include 'sup/cabecera.html' %}
+{% with messages= get_flashed_messages() %}
+
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    {% for message in messages %}{{ message }}{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+<div class="row">
+    <div class="col-5"></div>
+    <div class="col-2">
+        <button class="btn btn-dark btn-md" onclick="history.back()">Volver</button>
+    </div>
+    <div class="col-5"></div>
+
+</div>
+
+
+{% include 'sup/pie.html' %}

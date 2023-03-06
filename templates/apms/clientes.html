@@ -1,0 +1,144 @@
+{% include 'apms/cabecera.html' %}
+<script>
+	var hashUsuario = sessionStorage.getItem("hash");
+	if (!(hashUsuario)) {
+		window.location.href = "/";
+	}
+</script>
+<br>
+<div class="card-body" style="min-height: 500px; min-width: 700px;">
+	<div class="card border-info">
+		<div class="card-header">
+			<h4>Agregar cliente:</h4>
+		</div>
+		<div class="card-body" style="padding: 16px 10px ;">
+			<form action="/apms/clientes/guardar" method="post" enctype="multipart/form-data">
+				<table>
+					<!-- id="tblContact" class="table table-sm"-->
+					<!--<thead>-->
+					<tr>
+						<th style="text-align: center;" scope="col" class="table-info">Drogueria</th>
+						<th style="text-align: center;" scope="col" class="table-info">Cuenta</th>
+						<th style="text-align: center;" scope="col" class="table-info">Nombre</th>
+						<th style="text-align: center;" scope="col" class="table-info">CUIT</th>
+						<th style="text-align: center;" scope="col" class="table-info">Domicilio</th>
+						<th style="text-align: center;" scope="col" class="table-info">Localidad</th>
+						<th style="text-align: center;" scope="col" class="table-info">Cód. Postal</th>
+						<th style="text-align: center;" scope="col" class="table-info">Acciones</th>
+					</tr>
+					<!--</thead>-->
+					<!--<tbody id="rowsClientes">-->
+					<tr>
+						<td id="c_cod">
+							<select name="c_cod">
+								{% for drogueria in droguerias %}<option
+									value="{{drogueria[0]}}#{{drogueria[1]}}#{{drogueria[2]}}">
+									{{drogueria[1]}}-{{drogueria[2]}}</option>
+								{% endfor %}
+							</select>
+						</td>
+						<td id="c_cuenta"><input type="text" class="form-control form-control-sm" name="c_cuenta" id="#"
+								aria-describedby="helpId" placeholder=""></td>
+						<td id="c_nombre"><input type="text" class="form-control form-control-sm" name="c_nombre" id="#"
+								aria-describedby="helpId" placeholder=""></td>
+						<td id="c_cuit"><input type="text" class="form-control form-control-sm" name="c_cuit" id="#"
+								aria-describedby="helpId" placeholder=""></td>
+						<td id="c_domicilio"><input type="text" class="form-control form-control-sm" name="c_domicilio"
+								id="#" aria-describedby="helpId" placeholder=""></td>
+						<td id="c_localidad"><input type="text" class="form-control form-control-sm" name="c_localidad"
+								id="#" aria-describedby="helpId" placeholder=""></td>
+						<td id="c_postal"><input type="text" class="form-control form-control-sm" name="c_postal" id="#"
+								aria-describedby="helpId" placeholder=""></td>
+						<td id="acciones">
+							<div class="d-grid gap-2 col mx-auto">
+								<button type="submit" class="btn btn-dark btn-sm">Agregar</button>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+	</br>
+	</br>
+	<div class="card border-info">
+		<div class="card-header">
+			<h4>Clientes:</h4>
+		</div>
+		<div class="card-body" style="padding: 16px 0px ;">
+			<table id="myTable">
+				<!-- id="tblContact" class="table table-sm"-->
+				<thead>
+					<tr>
+						<th style="text-align: center;" scope="col" class="table-info">Drogueria</th>
+						<th style="text-align: center;" scope="col" class="table-info">Cuenta</th>
+						<th style="text-align: center;" scope="col" class="table-info">Nombre</th>
+						<th style="text-align: center;" scope="col" class="table-info">CUIT</th>
+						<th style="text-align: center;" scope="col" class="table-info">Domicilio</th>
+						<th style="text-align: center;" scope="col" class="table-info">Localidad</th>
+						<th style="text-align: center;" scope="col" class="table-info">Cód. Postal</th>
+						<th style="text-align: center;" scope="col" class="table-info">Acciones</th>
+					</tr>
+				</thead>
+				<!--<tbody id="rowsClientes">-->
+				<!--<tr>
+						<td id="c_cod"><select name="c_cod" id="c_cod">
+								{% for drogueria in droguerias %}<option>{{drogueria[1]}}-{{drogueria[2]}}</option>
+								{% endfor %}
+							</select></td>
+						<td id="c_cuenta"><input type="text" class="form-control form-control-sm" name="c_cuenta" id="#"
+								aria-describedby="helpId" placeholder=""></td>
+						<td id="c_nombre"><input type="text" class="form-control form-control-sm" name="c_nombre" id="#"
+								aria-describedby="helpId" placeholder=""></td>
+						<td id="c_cuit"><input type="text" class="form-control form-control-sm" name="c_cuit" id="#"
+								aria-describedby="helpId" placeholder=""></td>
+						<td id="c_domicilio"><input type="text" class="form-control form-control-sm" name="c_domicilio"
+								id="#" aria-describedby="helpId" placeholder=""></td>
+						<td id="c_localidad"><input type="text" class="form-control form-control-sm" name="c_localidad"
+								id="#" aria-describedby="helpId" placeholder=""></td>
+						<td id="c_postal"><input type="text" class="form-control form-control-sm" name="c_postal" id="#"
+								aria-describedby="helpId" placeholder=""></td>
+						<td id="acciones">
+							<div class="d-grid gap-2 col mx-auto">
+								<button type="submit" class="btn btn-dark btn-sm">Agregar</button>
+							</div>
+						</td>
+					</tr>-->
+				<!--</tbody>-->
+				<!--<tbody id="rowsClientes">-->
+				{% for cliente in clientes %}
+				<tr>
+					<!--<th scope="row">0</th>-->
+					<td id="c_cod" align="center">{{cliente[3]}}</td>
+					<td id="c_cuenta" align="center">{{cliente[4]}}</td>
+					<td id="c_nombre" align="center">{{cliente[5]}}</td>
+					<td id="c_cuit" align="center">{{cliente[6]}}</td>
+					<td id="c_domiciclio" align="center">{{cliente[7]}}</td>
+					<td id="c_localidad" align="center">{{cliente[8]}}</td>
+					<td id="c_postal" align="center">{{cliente[9]}}</td>
+
+					<td id="acciones" align="center">
+
+						<div class="row">
+							<div class="col">
+								<a class="btn btn-info btn-sm" href="/apms/editarCliente/{{cliente[0]}}" role="button"
+									style="display:center;">Editar</a>
+							</div>
+							<div class="col">
+								<a class="btn btn-danger btn-sm" href="/apms/clientes/borrar/{{cliente[0]}}"
+									role="button" style="display:center;" hidden>Borrar</a>
+							</div>
+						</div>
+					</td>
+				</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+
+
+		</div>
+		<div class="card-footer text-muted">
+		</div>
+	</div>
+</div>
+{% include 'apms/pie.html' %}

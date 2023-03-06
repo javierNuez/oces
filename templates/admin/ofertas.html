@@ -1,0 +1,164 @@
+{% include 'admin/cabecera.html' %}
+<script>
+    var hashUsuario = sessionStorage.getItem("hash");
+    if (!(hashUsuario)) {
+        window.location.href = "/";
+    }
+</script>
+{% with messages= get_flashed_messages() %}
+
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <strong>¡Cuidado!</strong> {% for message in messages %}{{ message }}{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+<br>
+<div class="card border-info">
+    <div class="card-header">
+        <h4>Módulos:</h4>
+    </div>
+    <div class="card-body">
+        <form action="/admin/prepararOferta" method="post" enctype="multipart/form-data">
+            <select class="form-select form-select-sm" aria-label="Oferta comercial vigente" name="txtModulos"
+                id="txtModulos" onchange="this.form.submit()" autofocus>
+                <option selected>Seleccione</option>
+                {% for modulo in modulos %}
+                <option value="{{modulo[0]}}">
+                    {{modulo[1]}}
+                </option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+</div>
+
+<br>
+<div class="card border-info">
+    <div class="card-header">
+        <h4>Agregar oferta comercial:</h4>
+    </div>
+    <div class="card-body">
+
+        <table id="tblContact" class="table table-sm">
+
+            <thead>
+                <tr>
+
+                    <th style="text-align: center;" scope="col" class="table-info">Productos</th>
+                    <th style="text-align: center;" scope="col" class="table-info">Cant. Min.</th>
+                    <th style="text-align: center;" scope="col" class="table-info">Descuento %</th>
+                    <th style="text-align: center;" scope="col" class="table-info">Obligatorio</th>
+
+                </tr>
+            </thead>
+            {% for producto in productos %}
+            <tbody>
+
+                <tr>
+                    <td id="">
+                        <input type="text" name="txtProducto" id="txtProducto"
+                            value="{{producto[0]}}#{{producto[1]}}#{{producto[2]}}#{{producto[3]}}#{{producto[4]}}#{{producto[5]}}"
+                            hidden>
+                        <h5>{{producto[2]}}</h5>
+
+
+                    </td>
+                    <td id=""><input type="text" class="form-control" name="txtMinima" id="#" aria-describedby="helpId"
+                            value="0" style="max-width: 100px;margin:auto;" disabled></td>
+                    <td id=""><input type="text" class="form-control" name="txtDescuento" id="#"
+                            aria-describedby="helpId" style="max-width: 100px;margin:auto;" value="0" disabled></td>
+                    <td id="">
+                        <select class="form-select" name="txtObligatorio" id="txtObligatorio" disabled>
+                            <option value="no">No</option>
+                            <option value="si">Si</option>
+
+                        </select>
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+            {% endfor %}
+
+        </table>
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button type="submit" class="btn btn-dark btn-sm" style="margin: auto;" disabled>Agregar</button>
+        </div>
+    </div>
+</div>
+
+<br>
+<div class="card-body" style="min-height: 500px;" hidden>
+    <div class="card border-info">
+        <div class="card-header">
+            <h4>Oferta comercial:</h4>
+        </div>
+        <div class="card-body">
+
+            <table id="tblContact" class="table table-sm">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;" scope="col" class="table-info">Mód. ID</th>
+                        <th style="text-align: center;" scope="col" class="table-info">Mód. Nombre</th>
+                        <th style="text-align: center;" scope="col" class="table-info">Cód.</th>
+                        <th style="text-align: center;" scope="col" class="table-info">Descripción</th>
+                        <th style="text-align: center;" scope="col" class="table-info">Mínimo</th>
+                        <th style="text-align: center;" scope="col" class="table-info">Descuento</th>
+                        <th style="text-align: center;" scope="col" class="table-info">Prod. obligatorio</th>
+                        <th style="text-align: center;" scope="col" class="table-info">Acciones</th>
+                    </tr>
+
+                </thead>
+                <tbody id="rowsPedidos">
+                    {% for oferta in ofertas %}
+                    <tr>
+                        <td id="" align="center">{{oferta[1]}}</td>
+                        <td id="" align="left">{{oferta[2]}}</td>
+                        <td id="" align="left">{{oferta[9]}}</td>
+                        <td id="" align="left">{{oferta[10]}}</td>
+                        <td id="" align="center">{{oferta[13]}}</td>
+                        <td id="" align="center">{{oferta[14]}}%</td>
+                        <td id="" align="center">{{oferta[16]}}</td>
+                        <td id="acciones" align="center">
+
+                            <div class="row">
+
+                                <div class="col">
+                                    <a class="btn btn-info btn-sm" href="/admin/editarOfertas/{{oferta[0]}}"
+                                        role="button" style="display:center;">Editar</a>
+                                </div>
+                                <div class="col">
+                                    <form action="/admin/ofertas/borrar" method="post">
+                                        <input value="{{oferta[0]}}" type="text" name="txtID" id="txtID" hidden>
+                                        <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        <div class="card-footer text-muted">
+
+        </div>
+    </div>
+</div>
+{% with messages= get_flashed_messages() %}
+
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <strong>¡Cuidado!</strong> {% for message in messages %}{{ message }}{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+</div>
+
+{% include 'admin/pie.html' %}

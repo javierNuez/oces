@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Oces</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.2.0-beta1 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"  integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+  </head>
+  <body>
+    <div class="col" style="padding-top: 30px">
+      <img src="http://www.laboratoriosbeta.com.ar/wp-content/uploads/2013/04/Logo-Beta1.png"
+          alt="laboratoriosbeta.com">
+    </div>
+    
+    <nav class="navbar navbar-expand navbar-light bg-light">
+        <div style="margin:auto;">
+            <h1 style="display:center;">Droguerias</h1>
+        </div>
+        
+    </nav>
+    <div class="container">
+        <br/>
+<div class="card-body">
+<div class="row">
+    <div class="col-2"></div>
+        <div class="col-8" style="max-width: 800px;">
+        {%for drogueria in droguerias %}
+            <form action="/admin/editarDrogueria/editar" method="post" enctype="multipart/form-data">
+                <div id="" name="">
+                    <div class="card-header">
+                        <h4>Editar Drogueria:</h4>
+                    </div>
+                        <div class="card-group">
+                            <div class="card">
+                                <div class="card-body" hidden>
+                                    <label for="txtID" class="form-label">ID:</label>
+                                    <input class="form-control" value="{{drogueria[0]}}" type="text" name="txtID" id="txtID">
+                                </div>
+                                <div class="card-body">
+                                    <label for="txtCodigo" class="form-label">Código:</label>
+                                    <input class="form-control" value="{{drogueria[1]}}" type="text" name="txtCodigo" id="txtCodigo">
+                                </div>
+                                <div class="card-body">
+                                    <label for="txtDescripcion" class="form-label">Descripción:</label>
+                                    <input class="form-control" value="{{drogueria[2]}}" type="text" name="txtDescripcion" id="txtDescripcion">
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="submit" class="btn btn-info btn-mg">Guardar</button>
+                                        </div>
+                                        <div class="col-2">
+                                            <p class="lead">
+                                                <a class="btn btn-secondary btn-mg" href="/admin/droguerias" role="button" style="display:center;">Volver</a>
+                                            </p>
+                                        </div>
+                                        <div class="col-4">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </br>
+                    </div>
+                    
+                    
+            </form>
+        </div>
+    {% endfor %}
+    <div class="col-2"></div>
+</div>
+</div>
+{% include 'admin/pie.html' %}

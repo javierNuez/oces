@@ -1,0 +1,33 @@
+{% include 'sitio/cabecera.html' %}
+{% with messages= get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    {% for message in messages %}{{ message }}{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+</br>
+</br>
+</br>
+</br>
+<div class="p-5 bg-light">
+    </br>
+    </br>
+    <div class="container">
+
+        <h1 class="display-3">Oces</h1>
+        <div>
+            {% if usuarios %}
+            <strong>¡Bienvenido usuario: ¡{{ usuarios[-5:] }}!</strong>
+            {% endif %}
+        </div>
+        <hr class="my-2">
+        <p>Laboratorios Beta SA</p>
+        <p class="lead">
+            <a class="btn btn-primary btn-mg" href="/sitio/loguin" role="button" style="display:center;">Iniciar
+                sesión</a>
+        </p>
+    </div>
+</div>
+{% include 'sitio/pie.html' %}

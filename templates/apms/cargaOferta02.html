@@ -1,0 +1,117 @@
+{% include 'apms/cabecera.html' %}
+<script>
+    var hashUsuario = sessionStorage.getItem("hash");
+    if (!(hashUsuario)) {
+        window.location.href = "/";
+    }
+</script>
+{% with messages= get_flashed_messages() %}
+
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <strong>¡Cuidado!</strong> {% for message in messages %}{{ message }}{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+<br>
+<br>
+<form action="/apms/cargaOferta02/cliente/" method="post" enctype="multipart/form-data">
+    <input type="text" id="hashUsuarioO" name="hashUsuarioO" hidden>
+    <script>
+        var hashUsuario = sessionStorage.getItem("hash");
+        document.getElementById("hashUsuarioO").value = hashUsuario;
+    </script>
+
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <h4 align="center">Pedidos comunes:</h4>
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="card-body">
+                {% if usuario %}
+                <input type="number" name="txtUsuario" value="{{usuario}}" hidden>
+                {% endif %}
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col">
+                            <label for="" class="form-label">Droguerías:</label>
+                            {% if droguerias %}
+                            <input type="text" value="{{droguerias[0][1]}}" name="txtDrogueria2" hidden>
+                            {% endif %}
+                            <div class="row">
+                                <div class="col">
+                                    <select class="form-select form-select-sm" aria-label="" name="txtDrogueria"
+                                        disabled>
+                                        {% if droguerias %}
+                                        <option value="{{droguerias[0][1]}}">
+                                            {{droguerias[0][1]}}-{{droguerias[0][2]}}</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col">
+                                <label for="" class="form-label">Clientes:</label>
+
+
+                                <div class="row">
+                                    <div class="col">
+                                        <select class="form-select form-select-sm" aria-label="" name="txtCliente"
+                                            onchange="this.form.submit()">
+                                            <option>Seleccione</option>
+                                            <option>Nuevo</option>
+                                            {% for cliente in clientes %}
+                                            <option value="{{cliente[4]}}">
+                                                {{cliente[4]}}-{{cliente[5]}}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col">
+
+
+                                <div class="row">
+                                    <div class="col-5">
+                                    </div>
+                                    <div class="col-2">
+                                        <a class="btn btn-dark btn-mg" href="/apms/ofertas/">Volver</a>
+
+                                    </div>
+                                    <div class="col-5">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-1"></div>
+        </div>
+
+    </div>
+</form>
+
+<!--Javier actualización-->
+
+{% include 'apms/pie.html' %}

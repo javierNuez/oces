@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Oces</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.2.0-beta1 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="col" style="padding-top: 30px">
+        <img src="http://www.laboratoriosbeta.com.ar/wp-content/uploads/2013/04/Logo-Beta1.png"
+            alt="laboratoriosbeta.com">
+    </div>
+
+    <nav class="navbar navbar-expand navbar-light bg-light">
+        <div style="margin:auto;">
+            <h1 style="display:center;">Clientes</h1>
+        </div>
+    </nav>
+    <div class="container">
+        <br />
+        <div class="card-body">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8" style="max-width: 800px;">
+                    {%for cliente in clientes %}
+                    <form action="/sup/editarCliente/editar" method="post" enctype="multipart/form-data">
+                        <div id="" name="">
+                            <div class="card-header">
+                                <h4>Editar Cliente:</h4>
+                            </div>
+                            <div class="card-group">
+                                <div class="card">
+                                    <div class="card-body" hidden>
+                                        <label for="txtID" class="form-label">ID:</label>
+                                        <input class="form-control" value="{{cliente[0]}}" type="text" name="txtID"
+                                            id="txtID">
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="c_cod" class="form-label">Código drogueria:</label>
+                                        <select name="c_cod">
+                                            <option value="{{cliente[1]}}#{{cliente[2]}}#{{cliente[3]}}">
+                                                {{cliente[2]}}-{{cliente[3]}}</option>
+                                            {% for drogueria in droguerias %}<option
+                                                value="{{drogueria[0]}}#{{drogueria[1]}}#{{drogueria[2]}}">
+                                                {{drogueria[1]}}-{{drogueria[2]}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="c_cuenta" class="form-label">Cuenta:</label>
+                                        <input class="form-control" value="{{cliente[4]}}" type="text" name="c_cuenta"
+                                            id="txtCuenta">
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="c_nombre" class="form-label">Nombre:</label>
+                                        <input class="form-control" value="{{cliente[5]}}" type="text" name="c_nombre"
+                                            id="txtNombre">
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="c_cuit" class="form-label">Cuit:</label>
+                                        <input class="form-control" value="{{cliente[6]}}" type="text" name="c_cuit"
+                                            id="txtCuit">
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="c_domicilio" class="form-label">Domicilio:</label>
+                                        <input class="form-control" value="{{cliente[7]}}" type="text"
+                                            name="c_domicilio" id="txtDomicilio">
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="c_localidad" class="form-label">Localidad:</label>
+                                        <input class="form-control" value="{{cliente[8]}}" type="text"
+                                            name="c_localidad" id="txtLocalidad">
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="c_postal" class="form-label">Cód. Postal:</label>
+                                        <input class="form-control" value="{{cliente[9]}}" type="text" name="c_postal"
+                                            id="txtPostal">
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-4">
+                                            </div>
+                                            <div class="col-2">
+                                                <button type="submit" class="btn btn-info btn-mg">Guardar</button>
+                                            </div>
+                                            <div class="col-2">
+                                                <p class="lead">
+                                                    <a class="btn btn-secondary btn-mg" href="/sup/clientes"
+                                                        role="button" style="display:center;">Volver</a>
+                                                </p>
+                                            </div>
+                                            <div class="col-4">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            </br>
+                        </div>
+
+
+                    </form>
+                </div>
+                {% endfor %}
+                <div class="col-2"></div>
+            </div>
+        </div>
+
+
+        {% include 'sup/pie.html' %}

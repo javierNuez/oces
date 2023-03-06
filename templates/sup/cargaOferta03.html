@@ -1,0 +1,132 @@
+{% include 'sup/cabecera.html' %}
+{% with messages= get_flashed_messages() %}
+
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <strong>¡Cuidado!</strong> {% for message in messages %}{{ message }}{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+<br>
+<br>
+<form>
+
+    <div class="card-header">
+        <h4>Oferta comercial:</h4>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <h4>Nuevo cliente</h4>
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-10">
+                <div class="card-body">
+                    {% if usuario %}
+                    <input type="number" name="txtUsuario" value="{{usuario}}" hidden>
+                    {% endif %}
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col">
+
+                                <label for="" class="form-label">Droguerías:</label>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <select class="form-select form-select-sm" aria-label="" name="" disabled>
+                                            {% for drogueria in droguerias %}
+                                            <option>{{drogueria[1]}}-{{drogueria[2]}}</option>
+                                            {% endfor%}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="" class="form-label">Clientes:</label>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <select class="form-select form-select-sm" aria-label="" name="" disabled>
+                                                <option>Nuevo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label for="" class="form-label">Cuenta:</label>
+                                    <input type="number" class="form-control form-control-sm" name="" id=""
+                                        aria-describedby="helpId" placeholder="">
+                                </div>
+                                <div class="col-5">
+                                    <label for="" class="form-label">CUIT:</label>
+                                    <input type="number" class="form-control form-control-sm" name="" id=""
+                                        aria-describedby="helpId" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-10">
+                                    <label for="" class="form-label">Nombre:</label>
+                                    <input type="text" class="form-control form-control-sm" name="" id=""
+                                        aria-describedby="helpId" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label for="" class="form-label">Localidad:</label>
+                                    <input type="text" class="form-control form-control-sm" name="" id=""
+                                        aria-describedby="helpId" placeholder="">
+                                </div>
+                                <div class="col-5">
+                                    <label for="" class="form-label">Código Postal:</label>
+                                    <input type="number" class="form-control form-control-sm" name="" id=""
+                                        aria-describedby="helpId" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-info btn-mg">Guardar</button>
+                            </div>
+                            <div class="col"></div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-1"></div>
+        </div>
+
+    </div>
+    </div>
+</form>
+</div>
+<h1>ofertas03</h1>
+
+</div>
+
+<!-- javier actualizacion-->
+
+{% include 'sup/pie.html' %}

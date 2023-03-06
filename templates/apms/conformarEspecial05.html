@@ -1,0 +1,268 @@
+{% include 'apms/cabecera.html' %}
+<form action="/apms/guardar/pedidosaaprobarE" method="post" enctype="multipart/form-data">
+    <input type="text" id="hashUsuarioO" name="hashUsuario" hidden>
+    <script>
+        var hashUsuario = sessionStorage.getItem("hash");
+        document.getElementById("hashUsuarioO").value = hashUsuario;
+
+        if (!(hashUsuario)) {
+            window.location.href = "/";
+        }
+
+    </script>
+    {% with messages= get_flashed_messages() %}
+
+    {% if messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <strong>¡Cuidado!</strong> {% for message in messages %}{{ message }}{% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <div class="card-body">
+
+        <div class="card border-info">
+            <div class="card-header">
+                <h4>Informacion del pedido:</h4>
+                <h6>Usuario: {% if usuario %} {{usuario[-5:]}} {% endif %}</h6>
+                <h6>Código droguería: {% if drogueria %} {{drogueria}} {% endif %}</h6>
+                <h6>Código cliente: {% if cliente %} {{cliente}} {% endif %}</h6>
+                {% if usuario %}
+                <input type="text" name="pedidoUsuario" value="{{usuario[-5:]}}" hidden>
+                {% endif %}
+                {% if drogueria %}
+                <input type="text" name="pedidoDrogueria" value="{{drogueria}}" hidden>
+                {% endif %}
+                {% if cliente %}
+                <input type="text" name="pedidoCliente" value="{{cliente}}" hidden>
+                {% endif %}
+            </div>
+            {% if salidas %}
+            <input type="text" name="pedidoOferta" value="{{salidas}}" hidden>
+            {% endif %}
+            {% for salida in salidas %}
+
+            <div class="card-body" style="padding: 16px 0px ;">
+
+
+                <table id="tblContact" class="table table-sm table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left;" scope="col" class="table-primary">{{salida[1][0][2]}}</th>
+                            <th style="text-align: left;" scope="col" class="table-primary"></th>
+                            <th style="text-align: left;" scope="col" class="table-primary"></th>
+                            <th style="text-align: left;" scope="col" class="table-primary">Can. mínima
+                                {{salida[1][0][7]}}</th>
+                        </tr>
+                    </thead>
+                    <tbody id="">
+                        <!--<table id="tblContact" class="table table-sm">-->
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;" scope="col" class="table-info">
+                                    Producto</th>
+                                <th style="text-align: center;" scope="col" class="table-info">
+                                    Código</th>
+
+                                <th style="text-align: center;" scope="col" class="table-info">
+                                    Descuento %</th>
+                                <th style="text-align: center;" scope="col" class="table-info">
+                                    Unidades</th>
+                            </tr>
+                        </thead>
+                    <tbody id="">
+
+                        {% for i in salida[1] %}
+
+                        <tr>
+                            <td style="text-align: center;" scope="col" class="table-light">
+                                {{i[10]}}
+                            </td>
+                            <td style="text-align: center;" scope="col" class="table-light">
+                                {{i[9]}}
+                            </td>
+
+                            <td style="text-align: center;" scope="col" class="table-light">
+                                {% if usuario[-5:] != "admin" %}
+                                {% if i[18] == 'no' %}
+                                <input type="number" name="descuento{{i[0]}}" style="width:70px; text-align: center;"
+                                    value="0">
+                                {% endif %}
+                                {% if i[18] == 'si' %}
+                                <input type="number" name="descuento{{i[0]}}" style="width:70px; text-align: center;"
+                                    value="0" disabled>
+                                {% endif %}
+                                {% endif %}
+                                {% if usuario[-5:] == "admin" %}
+                                <input type="number" name="descuento{{i[0]}}" style="width:70px; text-align: center;"
+                                    value="0">
+                                {% endif %}
+                            </td>
+                            <td style="text-align: center;" scope="col" class="table-light">
+                                {% if usuario[-5:] != "admin" %}
+                                {% if i[18] == 'no' %}
+                                <input class="inputs" type="number" style="width:70px; text-align: center;"
+                                    id="{{i[0]}}"
+                                    oninput="ponerMinimo({{i[0]}}, 0,{{salida[1][0][1]}},{{salida[1][0][7]}})" value="0"
+                                    name="{{i[0]}}">
+                                {% endif %}
+                                {% if i[18] == 'si' %}
+                                <input class="inputs" type="number" style="width:70px; text-align: center;"
+                                    id="{{i[0]}}"
+                                    oninput="ponerMinimo({{i[0]}}, 0,{{salida[1][0][1]}},{{salida[1][0][7]}})" value="0"
+                                    name="{{i[0]}}" disabled>
+                                {% endif %}
+                                {% endif %}
+                                {% if usuario[-5:] == "admin" %}
+                                <input class="inputs" type="number" style="width:70px; text-align: center;"
+                                    id="{{i[0]}}"
+                                    oninput="ponerMinimo({{i[0]}}, 0,{{salida[1][0][1]}},{{salida[1][0][7]}})" value="0"
+                                    name="{{i[0]}}" onkeypress="apretarTeclado({{i[0]}})">
+                                {% endif %}
+
+
+                                <!--min="{{i[13]}}" -->
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                        <tr>
+                            <td style="text-align: center;" scope="col" class="table-secondary">
+
+                            </td>
+                            <td style="text-align: center;" scope="col" class="table-secondary">
+
+                            </td>
+
+                            <td style="text-align: center;" scope="col" class="table-secondary">
+                                <h5>Total:</h5>
+                            </td>
+                            <td style="text-align: center;" scope="col" class="table-secondary">
+                                <input type="number" min="{{salida[1][0][7]}}" style="width:70px; text-align: center;"
+                                    id="{{salida[1][0][1]}}" value="0" onchange="sumarDocumento({{salida[1][0][1]}})"
+                                    name="{{salida[1][0][1]}}">
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+            <div class="card-footer text-muted">
+                <div>
+                    <label for="txtDetalle">Detalle del pedido:</label>
+                    <textarea name="txtDetalle" style="width: 100%;"></textarea>
+                </div>
+                <div class="card-footer text-muted" align="center">
+
+                    <button class="btn btn-dark btn-md" onclick="history.back()">Volver</button>
+                    <button class="btn btn-success btn-md" type="submit" id="enviarBoton" style="margin:auto ;"
+                        onclick="sacarMinimo()" disabled>Enviar
+                        pedido</button>
+                </div>
+
+            </div>
+        </div>
+
+        {% if anchoModulos %}
+        <input type="text" id="anchoModulos" value="{{anchoModulos}}" hidden>
+        {% endif %}
+        {% if listaInput %}
+        <input type="text" id="listaInput" value="{{listaInput}}" hidden>
+        {% endif %}
+
+        <script>
+            function apretarTeclado(inputEntrada) {
+                var input = document.getElementById(inputEntrada);
+
+                input.addEventListener("keypress", function (event) {
+
+                    if (event.key === "Enter") {
+
+                        event.preventDefault();
+
+                        event.key = "09";
+
+                    }
+
+                });
+            }
+            enviarDocumento = true;
+            function verificarObligatorio(modulo, minimo) {
+
+                let total = document.getElementById(modulo).value;
+                let obligatorio = document.getElementsByName(modulo).value;
+                if (total >= minimo && enviarDocumento) {
+
+                    document.getElementById("enviarBoton").removeAttribute("disabled");
+                }
+
+            }
+            function permitirEnvio(modulo, minimo) {
+                let total = document.getElementById(modulo).value;
+                let minimoModulo = minimo;
+                if (total >= minimoModulo) {
+                    verificarObligatorio(modulo, minimo);
+                }
+            }
+            function sacarMinimo() {
+                let anchoModulos = document.getElementById('anchoModulos').value;
+                let listaInput = document.getElementById('listaInput').value;
+                let listaInputArr = JSON.parse(listaInput);
+                for (let i = 0; i < anchoModulos; i++) {
+                    let arr = listaInputArr[i].split(':');
+                    console.log(arr[0]);
+                    totales = document.getElementById(arr[0]).value;
+
+                    if (totales == 0) {
+                        document.getElementById(arr[0]).setAttribute("min", "");
+                    }
+                }
+            }
+            function ponerMinimo(input, minimo, modulo, minModulo) {
+
+                let elInput = document.getElementById(input).value;/*el valor del input*/
+                let elMinimo = minimo;/*el valor del minimo*/
+                if (elInput < minimo && elInput != 0) {
+                    document.getElementById(input).value = minimo;
+
+                }
+                sumarDocumento(modulo);
+                permitirEnvio(modulo, minModulo);
+
+            }
+            function sumarDocumento(modulo) {
+                let anchoModulos = document.getElementById('anchoModulos').value;
+                let listaInput = document.getElementById('listaInput').value;
+                let listaInputArr = JSON.parse(listaInput);
+
+                for (let i = 0; i < anchoModulos; i++) {
+                    let arr = listaInputArr[i].split(':');
+
+                    if (arr[0] == modulo) {
+                        let listaArr = JSON.parse(arr[1]); /*la lista de elementos input del modulo*/
+                        suma = 0;
+
+                        for (let i = 0; i < listaArr.length; i++) {
+                            let n = document.getElementById(listaArr[i]).value;
+                            let o = document.getElementsByName(listaArr[i]).value;
+                            let t = document.getElementById(arr[0]).value;
+                            if (o == "si" && t > 0) {
+                                let enviarD = false;
+                            }
+
+                            n = parseInt(n);
+                            suma += n;
+                        }
+                        document.getElementById(arr[0]).value = suma;
+                    }
+
+                }
+
+            }
+
+        </script>
+    </div>
+</form>
+{% include 'apms/pie.html' %}

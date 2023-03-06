@@ -1,0 +1,29 @@
+<form id="form-param">
+    <div class="container">
+        {% for i in lospedidos%}
+        <div hidden>
+            <input type="datetime" class="parametro" value="{{i[0]}}"><input type="number" class="valor"
+                value="{{i[1]}}">
+        </div>
+        {% endfor %}
+    </div>
+
+</form>
+<div id="grafico" style="height: 250px;"></div>
+<script>
+    var parametros = [];
+    var valores = [];
+    function showResults() {
+        for (var i = 0; i < document.querySelectorAll('.parametro').length; i++) {
+            parametros.push(document.querySelectorAll('.parametro')[i].value);
+            valores.push(parseInt(document.querySelectorAll(".valor")[i].value));
+        }
+        var data = [{
+            x: parametros,
+            y: valores,
+            type: "bar"
+        }];
+        Plotly.newPlot("grafico", data);
+    }
+    showResults();
+</script>

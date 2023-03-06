@@ -1,0 +1,38 @@
+<div class="card border-info">
+    <form action="/apms/pedidosf" method="post" enctype="multipart/form-data">
+        <div class="card-body">
+            <div class="row">
+
+                <div class="col-2" style="padding-top: 25px;padding-left: 50px;">
+                    <h2>Pedidos:</h2>
+                </div>
+                <div class="col-4" style="padding-top: 25px;">
+
+                    <div class="row">
+                        <h2 id="tot"></h2>
+                    </div>
+
+                </div>
+                <div class="col-2">
+                    <label for="desde">Desde:</label>
+                    {% if desde %}
+                    <input type="date" class="form-control" name="pedidosDesde" id="desde" aria-describedby="helpId"
+                        value="{{desde}}">
+                    {% endif %}
+                </div>
+                <div class="col-2">
+                    <label for="desde">Hasta:</label>
+                    {% if hasta %}
+                    <input type="date" class="form-control" name="pedidosHasta" id="hasta" aria-describedby="helpId"
+                        value="{{hasta[0:10]}}">
+                    {% endif %}
+                </div>
+                <div class="col-2" style="padding-top: 25px;">
+                    <button class="btn btn-dark btn-md" type="submit" style="margin:auto ;">Aplicar</button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+</div>
