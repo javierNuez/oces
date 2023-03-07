@@ -1,4 +1,4 @@
-from http.client import BAD_REQUEST
+
 from locale import normalize
 from random import randint
 #from audioop import add
@@ -57,7 +57,7 @@ def apms_index():
 
 @app.route('/apms/inicio')
 def apms_inicio():
-    _desde = "2022-01-01"
+    _desde = "2023-01-01"
     _hasta = "9999-12-31"
     usuario = session['hash']
     usuarioEntero = int(usuario)
@@ -198,7 +198,7 @@ def admin_mensaje():
 
 @app.route('/sup/inicio')
 def sup_inicio():
-    _desde = "2022-01-01"
+    _desde = "2023-01-01"
     _hasta = "9999-12-31"
     usuario = session['hash']
 
@@ -1897,7 +1897,7 @@ def apms_cargaOferta04_d_c():
 
 @ app.route('/sup/pedidos', methods=['GET'])
 def pedidosTemplate():
-    _desde = "2022-01-01"
+    _desde = "2023-01-01"
     _hasta = "9999-12-31"
     usuario = session['hash']
 
@@ -2748,7 +2748,7 @@ def sup_clientes_guardar(usuario):
 @ app.route('/admin/pedidos', methods=['GET'])
 def pedidosTemplateA():
 
-    _desde = "2022-01-01"
+    _desde = "2023-01-01"
     _hasta = "9999-12-31 23:59:59"
 
     conexion = mysql.connect()
@@ -3167,7 +3167,7 @@ def admin_productos_editar():
 
 @ app.route('/apms/pedidos')
 def apms_pedidos():
-    _desde = "2022-01-01"
+    _desde = "2023-01-01"
     _hasta = "9999-12-31"
     usuario = session['hash']
     usuarioEntero = int(usuario)
